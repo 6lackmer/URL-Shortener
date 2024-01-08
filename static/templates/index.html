@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Text Box with Submit Button</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">URL-Shortener</a>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#"> <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/viewurls">View Shortened URLs</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="centered-form-wrapper">
+        <form method="POST" action="/submit" onsubmit="return validateForm()" class="form">
+            <fieldset class="form-fields">
+                <div class="form-group">
+                    <label for="textInput">Please Enter a URL to shorten: </label>
+                    <input type="text" id="textInput" name="textInput" class="form-control" placeholder="Enter Here">
+                    <span id="message"></span>
+                </div>
+            </fieldset>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success icon-check">Update</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
+
+<script>
+    window.onload = function () {
+        var urlParams = new URLSearchParams(window.location.search);
+        var messageElement = document.getElementById("message");
+
+        if (urlParams.has('error')) {
+            var errorType = urlParams.get('error');
+            messageElement.style.color = "red"; // Error message in red
+
+            switch (errorType) {
+                case 'no_input':
+                    messageElement.textContent = 'Please enter some text.';
+                    break;
+                case 'invalid_url':
+                    messageElement.textContent = 'Url must be valid. Example: https://www.google.com';
+                    break;
+                case 'url_exists':
+                    messageElement.textContent = 'This URL has already been shortened. View it at the View Shortened URLs page.';
+                    break;
+            }
+        } else if (urlParams.has('success')) {
+            var successType = urlParams.get('success');
+            messageElement.style.color = "green"; // Success message in green
+
+            if (successType === 'shortened') {
+                messageElement.textContent = 'URL shortened successfully!';
+            }
+        }
+    };
+</script>

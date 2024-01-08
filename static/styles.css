@@ -1,0 +1,10 @@
+.centered-form-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.form {
+    width: 50%; 
+    max-width: 500px; 
+}
